@@ -1,3 +1,10 @@
+# Data Pipeline
+The /project/pipeline.sh script must be run from the root folder after installing the necessary packages:
+```
+pip install -r project/requirements.txt
+bash project/pipeline.sh
+```
+
 # Methods of Advanced Data Engineering Template Project
 
 This template project provides some structure for your open data project in the MADE module at FAU.
