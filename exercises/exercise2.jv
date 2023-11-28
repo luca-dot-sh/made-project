@@ -19,13 +19,13 @@ pipeline TrainstopsPipeline {
         header: true;
         columns: [
             "EVA_NR" oftype integer,
-            "DS100" oftype NonEmptyText,
+            "DS100" oftype text,
             "IFOPT" oftype IFOPT,
-            "NAME" oftype NonEmptyText,
+            "NAME" oftype text,
             "Verkehr" oftype VerkehrType,
             "Laenge" oftype Coordinate,
             "Breite" oftype Coordinate,
-            "Betreiber_Name" oftype NonEmptyText,
+            "Betreiber_Name" oftype text,
             "Betreiber_Nr" oftype integer
         ];
     }
@@ -37,15 +37,7 @@ pipeline TrainstopsPipeline {
 
 }
 
-valuetype NonEmptyText oftype text {
-    constraints:[TextIsNotEmpty];
-}
-
-constraint TextIsNotEmpty oftype LengthConstraint{
-    minLength:1;
-}
-
-valuetype VerkehrType oftype NonEmptyText {
+valuetype VerkehrType oftype text {
     constraints:[OnlyValidVerkehrValues];
 }
 
@@ -57,13 +49,13 @@ valuetype Coordinate oftype decimal {
     constraints:[OnlyValidCoordinates];
 }
 
-constraint OnlyValidCoordinates oftype RangeConstraint{
+constraint OnlyValidCoordinates oftype RangeConstraint {
     lowerBound:-90.0;
     upperBound:90;
 }
 
 
-valuetype IFOPT oftype NonEmptyText {
+valuetype IFOPT oftype text {
     constraints:[OnlyValidIFOPT];
 }
 
