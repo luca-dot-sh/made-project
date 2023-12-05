@@ -23,6 +23,13 @@ datasets_dwd_precipitation = []
 datasets_dwd_air_temperature = []
 datasets_bt = ["data/bicycletheft.csv"]
 
+WEATHER_DATA_SQL_TABLE_NAME = "dwd"
+BICYCLE_THEFT_SQL_TABLE_NAME = "bicycle_theft"
+
+ABSOLUTE_ZERO = -273.5
+TEMP_CUTOFF = 100
+
+
 # Main entry point
 def pipeline():
     download_datasets()
@@ -31,8 +38,8 @@ def pipeline():
     bicycle_theft_data = read_bicycle_theft_data()
     print(dwd_data.dtypes)
     print(dwd_data.dtypes)
-    write_sql(dwd_data, "dwd")
-    write_sql(bicycle_theft_data, "bicycle_theft")
+    write_sql(dwd_data, WEATHER_DATA_SQL_TABLE_NAME)
+    write_sql(bicycle_theft_data, BICYCLE_THEFT_SQL_TABLE_NAME)
 
 # Download the datasets
 def download_datasets():
@@ -69,6 +76,7 @@ def read_dwd_data():
 
     # Filter invalid measurements
     joined_data = joined_data.loc[joined_data["RS_IND"]!=-999]
+    joined_data = joined_data.loc[(joined_data["TT_TU"]>ABSOLUTE_ZERO) & (joined_data["TT_TU"]<TEMP_CUTOFF)]
 
     # Convert to boolean
     joined_data["RS_IND"] = joined_data["RS_IND"].map(lambda x: x==1)
