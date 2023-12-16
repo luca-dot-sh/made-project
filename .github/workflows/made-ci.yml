@@ -1,11 +1,22 @@
 name: MADE Project CI
-run-name: ${{ github.actor }} has pushed to main
-on: [push]
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - '**'
+    - '!exercises/**'
 jobs:
   system_and_unit_test:
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: pip install -r project/requirements.txt
-      - run: bash project/tests.sh
+      - name: Install dependencies
+        run: pip install -r project/requirements.txt
+      - name: Run system level and unit tests
+        run: bash project/tests.sh
