@@ -1,0 +1,11 @@
+name: MADE Project CI
+run-name: ${{ github.actor }} has pushed to main
+on: [push]
+jobs:
+  Run tests.sh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - run: pip install -r project/requirements.txt
+      - run: bash project/tests.sh
