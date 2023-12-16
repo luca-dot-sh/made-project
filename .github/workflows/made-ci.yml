@@ -19,4 +19,4 @@ jobs:
       - name: Install dependencies
         run: pip install -r project/requirements.txt
       - name: Run system level and unit tests
-        run: bash project/tests.sh
+        run: bash -e project/tests.sh
