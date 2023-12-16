@@ -2,7 +2,7 @@ name: MADE Project CI
 run-name: ${{ github.actor }} has pushed to main
 on: [push]
 jobs:
-  Run system and unit tests:
+  system_and_unit_test:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
