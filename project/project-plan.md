@@ -23,6 +23,7 @@ Bicycle theft is a huge problem in Berlin, as it has one of [the highest rates o
 * Data URL: https://www.polizei-berlin.eu/Fahrraddiebstahl/Fahrraddiebstahl.csv 
 * Data Type: CSV
 * Description: Bicycle theft data from Berlin, each entry containing the timeframe in which the bike was stolen, the value of the stolen good and the location
+* **Note: The version used in the report is the one in /data. The dataset from the link contains more up-to-date, but not the 2022 data anymore.**
 
 
 ### Datasource 2: Air Temperature in Berlin
