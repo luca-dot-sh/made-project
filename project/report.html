@@ -7782,9 +7782,7 @@ Even though this deviates from the IMRAD structure, the descriptions of the indi
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># First, calculate the size/sum per day and then take the mean of that</span>
-<span class="c1"># This way, the first and last week of the year (which could have less than 7 days) are represented correctly</span>
-<span class="n">mean_airtemp_per_week</span> <span class="o">=</span> <span class="n">dwd_2022</span><span class="p">[</span><span class="s2">"air_temperature"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"W"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">mean_airtemp_per_week</span> <span class="o">=</span> <span class="n">dwd_2022</span><span class="p">[</span><span class="s2">"air_temperature"</span><span class="p">]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"W"</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 <span class="k">assert</span><span class="p">(</span><span class="n">mean_airtemp_per_week</span><span class="o">.</span><span class="n">size</span><span class="o">==</span><span class="n">bicycles_counted_per_week</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 <span class="n">correlation_bc_at</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s2">"Mean daily bicycles counted per week / 100"</span><span class="p">:</span> <span class="n">bicycles_counted_per_week</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span>
@@ -8117,12 +8115,12 @@ Even though this deviates from the IMRAD structure, the descriptions of the indi
 </ul>
 </li>
 <li>RC4: Do higher temperatures increase the risk of bicycle <strong>theft</strong>?<ul>
-<li>This questions was indirectly answered in RC3, but when plotting the two graphs against each other, it can be seen that there is a slight inverse correlation between air temperature and thefts.</li>
+<li>This questions was indirectly answered by RC2 and RC3, but when plotting the two graphs against each other, it can be seen that there is a very slight inverse correlation between air temperature and thefts.</li>
 <li>Especially when looking at some of the peaks in Bike Danger Index, some local minima can be observed for the temperature. This can be explained by the assumption that less people will ride their bike during colder times, but thefts will not decrease as much.</li>
 </ul>
 </li>
 <li>RC5: Does more rain lead to less or more bicycle <strong>traffic</strong>?<ul>
-<li>When looking at the peaks in rain amount per week, a similar observation to RC4 can be made. Unsuprisingly, large amounts of rain lead to less people riding their bike and vice versa, as most will likely prefer travelling by car or public transport instead.</li>
+<li>When looking at the peaks in rain amount per week, a similar observation to RC3 can be made. Unsuprisingly, large amounts of rain lead to less people riding their bike and vice versa, as most will likely prefer travelling by car or public transport instead.</li>
 <li>However, this relationship is not as clear as the one between air temperature and bicycle traffic. A better is representation is the second graph measuring the hours of rain per week instead of the total amount of rain, where the decrease in bicycle riders can be observed at many different points.</li>
 </ul>
 </li>
@@ -8132,8 +8130,8 @@ Even though this deviates from the IMRAD structure, the descriptions of the indi
 </ul>
 </li>
 <li>RC7: Are there significant differences in weather metrics at times when bikes were stolen?<ul>
-<li>In this analysis, the approach was aggregating based on individual theft cases' timeframes rather than aggregating by week. The comparison of weather metrics confirms the observations from the other research questions.</li>
-<li>The comparison of bicycle counts is shows an interesting observation to be investiaged: during times where bicycles were stolen, the mean number of counted bicycles was higher than the overall mean for the year 2022. This could mean that many bicycles are stolen during the daylight, where bicycles counts are much higher than at night. However, this question requires further investigation, as getting the exact time of a bicycle theft is impossible due to solely a timeframe being provided.</li>
+<li>In this questions's analysis, the approach was aggregating based on individual theft cases' timeframes rather than aggregating by week. The comparison of weather metrics confirms the observations from the other research questions.</li>
+<li>The comparison of bicycle counts is shows an interesting observation left to be investigated: during times where bicycles were stolen, the mean number of counted bicycles was higher than the overall mean for the year 2022. This could mean that many bicycles are stolen during the daylight, where bicycles counts are likely much higher than at night. However, this question requires further investigation and other methods, as getting the exact time of a bicycle theft is impossible due to solely a timeframe being provided.</li>
 </ul>
 </li>
 </ul>
@@ -8148,10 +8146,10 @@ Even though this deviates from the IMRAD structure, the descriptions of the indi
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Limitations">Limitations<a class="anchor-link" href="#Limitations">¶</a></h3><ul>
-<li>The data analysed is only for the year 2022, as this is currently the only full year for which all three datasets provide data. In the future, when more data is released, the analysis could be expanded to a new year to reduce the influence of events that could be specific to the year 2022. (f.e. the year before that, COVID lockdowns would have had a significant impact on mobility).</li>
+<li>The data analysed is only for the year 2022, as this is currently the only full year for which all three datasets provide data. In the future, when more data is released, the analysis could be expanded to a new year to reduce the influence of events that could be specific to the year 2022. (f.e. in 2020, COVID lockdowns would have had a significant impact on mobility).</li>
 <li>The variation in bicycle theft and bicycle counts can obviously involve other factors, namely public holidays, school holidays, events affecting tourism and more.</li>
 </ul>
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h2><p>The results tend to show that it is safer for ones bicycle to be ridden during on warm days and days with little to no rain. In general, these correlations are closely related with the number of other people riding their bike on a given day, which means that being one of the fewer people cycling during bad weather should rather be avoided the reduce the chances of the bike being stolen (and getting wet). However, some of the correlations are not as strong, which could mean that other factors also play a large part. Further research should be done to identify those.</p>
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">¶</a></h2><p>The results tend to show that it is safer for ones bicycle to be ridden during on warm days and days with little to no rain. In general, these correlations are closely related with the number of other people riding their bike on a given day, which means that being one of the fewer people cycling during bad weather should rather be avoided if one wants to reduce the chances of their bike being stolen (and getting wet). However, some of the correlations are not as strong, which could mean that other factors also play a large part. Further research should be done to identify those.</p>
 <h3 id="Outlook">Outlook<a class="anchor-link" href="#Outlook">¶</a></h3><ul>
 <li>The datasets could be expanded by using more weather and bicycle counting stations, along with mapping bicycle thefts to their nearest bicycle counting station. This would reduce the assumptions made in the Methods chapter and provide a more realistic view. For example, so some districts of Berlin will likely have higher bicycle theft rates, which is neglected in this analysis.</li>
 <li>Further research could try to use the data from 2022 to train a Machine Learning model and test it on data that it released in the future.</li>
