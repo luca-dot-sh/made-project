@@ -1,5 +1,6 @@
 import urllib.request
 import os.path
+from os import getcwd, listdir
 import pandas as pd
 import zipfile
 from datetime import datetime, date
@@ -13,7 +14,8 @@ import sqlalchemy as sqla
 datasets = {
     "data/bicycletheft.csv": "https://www.polizei-berlin.eu/Fahrraddiebstahl/Fahrraddiebstahl.csv",
     "data/airtemp_berlin_brandenburg.zip": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/air_temperature/historical/stundenwerte_TU_00427_19730101_20221231_hist.zip",
-    "data/precipitation_berlin_brandenburg.zip": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/historical/stundenwerte_RR_00427_19950901_20221231_hist.zip"
+    "data/precipitation_berlin_brandenburg.zip": "https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/historical/stundenwerte_RR_00427_19950901_20221231_hist.zip",
+    "data/count_bicycles.xlsx" : "https://www.berlin.de/sen/uvk/_assets/verkehr/verkehrsplanung/radverkehr/weitere-radinfrastruktur/zaehlstellen-und-fahrradbarometer/gesamtdatei-stundenwerte.xlsx"
 }
 
 # All DWD percipitation dataset paths
@@ -23,8 +25,11 @@ datasets_dwd_precipitation = []
 datasets_dwd_air_temperature = []
 datasets_bt = ["data/bicycletheft.csv"]
 
+dataset_bcount = "data/count_bicycles.xlsx"
+
 WEATHER_DATA_SQL_TABLE_NAME = "dwd"
 BICYCLE_THEFT_SQL_TABLE_NAME = "bicycle_theft"
+BICYCLE_COUNT_SQL_TABLE_NAME = "count_bicycles"
 
 ABSOLUTE_ZERO = -273.5
 TEMP_CUTOFF = 100
@@ -32,14 +37,24 @@ TEMP_CUTOFF = 100
 
 # Main entry point
 def pipeline():
+    assert_directory()
     download_datasets()
     unzip_dwd_data()
     dwd_data = read_dwd_data()
     bicycle_theft_data = read_bicycle_theft_data()
+    count_bicycle_data = read_count_bicycle_data()
     print(dwd_data.dtypes)
     print(dwd_data.dtypes)
+    print(count_bicycle_data.dtypes)
     write_sql(dwd_data, WEATHER_DATA_SQL_TABLE_NAME)
     write_sql(bicycle_theft_data, BICYCLE_THEFT_SQL_TABLE_NAME)
+    write_sql(count_bicycle_data, BICYCLE_COUNT_SQL_TABLE_NAME)
+
+def assert_directory():
+    cwd = getcwd()
+    contents = listdir(cwd)
+    if("project" not in contents and "data" not in contents):
+        raise RuntimeError("invalid directory! run from the root of the repo: python3 project/pipeline.py")
 
 # Download the datasets
 def download_datasets():
@@ -62,6 +77,19 @@ def unzip_dwd_data():
                 datasets_dwd_precipitation.append(res_path)
             elif("airtemp" in file):
                 datasets_dwd_air_temperature.append(res_path)
+
+# Read the bicycle counts for Karl-Marx-Allee for 2022
+def read_count_bicycle_data():
+    raw_data = read_xlsx_bcount_2022(dataset_bcount)
+    bcount_df = pd.DataFrame()
+    bcount_df["date_hour"] = raw_data["Zählstelle        Inbetriebnahme"]
+    bcounts = raw_data["01-MI-AL-W 16.12.2021"]
+    print(bcounts.info())
+    bcounts = bcounts.fillna(value=0)
+    bcounts = bcounts.astype(int)
+    assert(bcounts.size==raw_data["01-MI-AL-W 16.12.2021"].size)
+    bcount_df["bicycle_count"] = bcounts
+    return bcount_df
 
 # Read, transform and clean DWD data (DWD data is static)
 def read_dwd_data():
@@ -112,11 +140,22 @@ def read_dwd_data():
 
 # Read, transform and clean the bicycle theft data
 def read_bicycle_theft_data():
+
+
     bicycle_theft_sets = [read_csv_bt(path) for path in datasets_bt]
     bt_data = union(bicycle_theft_sets)
 
     # Convert time formats
     bt_data = parse_bt_times(bt_data)
+
+    # The Berlin bicycle dataset is updated daily with new theft data. It currently seems that data will only be appended,
+    # however, if old data is removed, a archived version must be used and the link in datasets must be added.
+    # The relevant data is currently the year 2022.   
+    # Update January 7th: the dataset to be used for the report was deleted, and i cannot switch to the 2023 version
+    # because the other dataset only goes up 2022. The archived version will be used.
+    if(dataset_too_new(bt_data)):
+        bt_data = read_csv_bt("data/archived_bicycle_theft_2022.csv")
+        bt_data = parse_bt_times(bt_data)
 
     # Translate
     bt_data["only_attempted"] = bt_data["VERSUCH"].map(translate_yes_no)
@@ -137,13 +176,6 @@ def read_bicycle_theft_data():
         ,"TATZEIT_ENDE_STUNDE"
         ,"ANGELEGT_AM"
         ,"VERSUCH"])
-
-    # The Berlin bicycle dataset is updated daily with new theft data. It currently seems that data will only be appended,
-    # however, if old data is removed, a archived version must be used and the link in datasets must be added.
-    # The relevant data is currently the year 2022.    
-    if(dataset_too_new(bt_data)):
-        raise Exception("""Bicycle theft dataset does not contain the relevant information anymore (it is too new).
-         "Please change the link""")
 
     return bt_data
 
@@ -183,6 +215,9 @@ def read_csv_dwd(file):
 # Read csv with settings specific to BT data
 def read_csv_bt(file):
     return pd.read_csv(filepath_or_buffer=file,sep=",",encoding_errors="ignore")
+
+def read_xlsx_bcount_2022(file):
+    return pd.read_excel(io=file, sheet_name="Jahresdatei 2022")
 
 # Build the union of equally formatted datasets, f.e. for different years
 def union(sets):

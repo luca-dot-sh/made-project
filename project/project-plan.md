@@ -2,7 +2,7 @@
 
 ## Title
 <!-- Give your project a short title. -->
-The impact of weather on bicycle theft in Berlin
+The impact of weather and bicycle traffic on bicycle theft in Berlin
 
 ## Main Question
 
@@ -12,7 +12,7 @@ Does sunny or rainy weather have an impact on bicycle theft in Berlin? Is there 
 ## Description
 
 <!-- Describe your data science project in max. 200 words. Consider writing about why and how you attempt it. -->
-Bicycle theft is a huge problem in Berlin, as it has one of [the highest rates of bike theft per inhabitant in Germany](https://www.wsm.eu/en/knowledge/bicycle-theft-in-germany/). This poses the question: How can i keep my bicycle safe in Berlin? Apart from a strong lock, there might be other influences on the probability of getting your bike stolen, such as place or time of the day. A rather uncommon factor to think of is the weather, though it plays a huge part in mobility and transportation, especially for bicycles. Thus, in this project, i will analyze correlations between bicycle theft and weather data by combining two datasets from Berlin. 
+Bicycle theft is a huge problem in Berlin, as it has one of [the highest rates of bike theft per inhabitant in Germany](https://www.wsm.eu/en/knowledge/bicycle-theft-in-germany/). This poses the question: How can i keep my bicycle safe in Berlin? Apart from a strong lock, there might be other influences on the probability of getting your bike stolen, such as place or time of the day. A rather uncommon factor to think of is the weather, though it plays a huge part in mobility and transportation, especially for bicycles. Thus, in this project, i will analyze correlations between bicycle theft, bicycle counts and weather data by combining three datasets from Berlin.
 
 ## Datasources
 
@@ -32,13 +32,16 @@ Bicycle theft is a huge problem in Berlin, as it has one of [the highest rates o
 * Description: Air temperature data for Berlin-Alexanderplatz, from 1970 - 2022
 
 ### Datasource 3: Precipitation in Berlin
-* Metadata URL: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/historical/stundenwerte_RR_00399_19950901_20110801_hist.zipstundenwerte_TU_00399_19691201_20110801_hist.zip
+* Metadata URL: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/historical/stundenwerte_RR_00399_19950901_20110801_hist.zip
 * Data URL: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/historical/stundenwerte_RR_00399_19950901_20110801_hist.zip
 * Data Type: TXT (csv)
 * Description: Percipitation data for Berlin-Alexanderplatz, from 1970 - 2022
 
-### (Datasource 4: Location codes for Berlin)
-* to be decided if used
+### Datasource 4: Bicycle counts for Berlin
+* Metadata URL: https://www.berlin.de/sen/uvk/mobilitaet-und-verkehr/verkehrsplanung/radverkehr/weitere-radinfrastruktur/zaehlstellen-und-fahrradbarometer/
+* Data URL: https://www.berlin.de/sen/uvk/_assets/verkehr/verkehrsplanung/radverkehr/weitere-radinfrastruktur/zaehlstellen-und-fahrradbarometer/gesamtdatei-stundenwerte.xlsx
+* Data Type: XLSX
+* Description: Bicycles counts from different stations in Berlin, various timeframes up to 2022
 
 
 ## Work Packages
