@@ -1,3 +1,5 @@
+![AI generated picture of bicycle theft in the rain](images/bt_banner.png)
+
 # The impact of weather and bicycle traffic on bicycle theft in Berlin
 Bicycle theft is a huge problem in Berlin, as it has one of [the highest rates of bike theft per inhabitant in Germany](https://www.wsm.eu/en/knowledge/bicycle-theft-in-germany/). This poses the question: How can one keep their bicycle safe in Berlin? Apart from a strong lock and a safe parking spot, there might be other influences on the probability of a bike being stolen, such as place or time of the day. A rather uncommon factor to think of is the weather, though it plays a huge part in mobility and transportation, especially for bicycles. In this project, three datasets from Berlin from 2022 are combined:
 one containing bicycle theft data, one containing different weather metrics and one containing bicycle traffic counts, looking for anomalies and correlations in the data. The result can be found in [the report here](https://github.com/luca-dot-sh/made-project/blob/main/project/report.html).
@@ -32,4 +34,7 @@ The data/archived_bicycle_theft_2022.csv is a archived version of the [Fahrraddi
 This project was tested with Python 3.10.
 
 # License
-This project is licensed under [Creative Commons Attribution 4.0 International](https://github.com/luca-dot-sh/made-project/blob/main/LICENSE)
+This project is licensed under [Creative Commons Attribution 4.0 International](https://github.com/luca-dot-sh/made-project/blob/main/LICENSE).
+
+# Banner
+The banner was generated using DALL-E and cropped.
