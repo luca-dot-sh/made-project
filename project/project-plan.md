@@ -19,6 +19,7 @@ Bicycle theft is a huge problem in Berlin, as it has one of [the highest rates o
 <!-- Describe each datasources you plan to use in a section. Use the prefic "DatasourceX" where X is the id of the datasource. -->
 
 ### Datasource 1: Bicycle theft data in Berlin 
+* Publisher: Berlin Open Data / Polizei Berlin LKA St 14
 * Metadata URL: https://www.berlin.de/polizei/_assets/dienststellen/lka/datensatzbeschreibung.pdf 
 * Data URL: https://www.polizei-berlin.eu/Fahrraddiebstahl/Fahrraddiebstahl.csv 
 * Data Type: CSV
@@ -27,18 +28,21 @@ Bicycle theft is a huge problem in Berlin, as it has one of [the highest rates o
 
 
 ### Datasource 2: Air Temperature in Berlin
+* Publisher: Deutscher Wetterdienst
 * Metadata URL: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/air_temperature/historical/stundenwerte_TU_00399_19691201_20110801_hist.zip
 * Data URL: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/air_temperature/historical/stundenwerte_TU_00399_19691201_20110801_hist.zip
 * Data Type: TXT (csv)
 * Description: Air temperature data for Berlin-Alexanderplatz, from 1970 - 2022
 
 ### Datasource 3: Precipitation in Berlin
+* Publisher: Deutscher Wetterdienst
 * Metadata URL: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/historical/stundenwerte_RR_00399_19950901_20110801_hist.zip
 * Data URL: https://opendata.dwd.de/climate_environment/CDC/observations_germany/climate/hourly/precipitation/historical/stundenwerte_RR_00399_19950901_20110801_hist.zip
 * Data Type: TXT (csv)
 * Description: Percipitation data for Berlin-Alexanderplatz, from 1970 - 2022
 
 ### Datasource 4: Bicycle counts for Berlin
+* Publisher: Senatsverwaltung für Umwelt, Mobilität, Verbraucher- und Klimaschutz
 * Metadata URL: https://www.berlin.de/sen/uvk/mobilitaet-und-verkehr/verkehrsplanung/radverkehr/weitere-radinfrastruktur/zaehlstellen-und-fahrradbarometer/
 * Data URL: https://www.berlin.de/sen/uvk/_assets/verkehr/verkehrsplanung/radverkehr/weitere-radinfrastruktur/zaehlstellen-und-fahrradbarometer/gesamtdatei-stundenwerte.xlsx
 * Data Type: XLSX

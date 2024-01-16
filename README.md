@@ -27,6 +27,9 @@ pip install -r project/requirements.txt
 bash project/tests.sh
 ```
 
+# Used datasets
+Information about the datasets used can be found in the above mentioned report and in project/project-plan.md.
+
 # Archived data in /data
 The data/archived_bicycle_theft_2022.csv is a archived version of the [Fahrraddiebstahl in Berlin](https://daten.berlin.de/datensaetze/fahrraddiebstahl-berlin) dataset, which unfortunately is currently no longer available, as it apperently only contains data from the last and current year. It was (and is) published under the [CC BY 3.0 DEED license](https://creativecommons.org/licenses/by/3.0/de/)
 
