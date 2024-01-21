@@ -1,0 +1,117 @@
+pipeline BatteryTempsPipeline {
+
+    BTHttpExtractor
+    ->BTArchiveInterpreter
+    ->BTFilePicker
+    ->BTTextFileInterpreter
+    ->BTCSVReader
+    ->BTHeaderRenamerTemp
+    ->BTHeaderRenamerBatTemp
+    ->BTColumnSelector
+    ->BTTableInterpreter
+    ->BTDWDTempTransformer
+    ->BTBatteryTempTransformer
+    ->BTSQLiteLoader;
+
+    block BTHttpExtractor oftype HttpExtractor {
+        url:"https://www.mowesta.com/data/measure/mowesta-dataset-20221107.zip";
+    }
+
+    block BTArchiveInterpreter oftype ArchiveInterpreter {
+        archiveType:"zip";
+    }
+
+    block BTFilePicker oftype FilePicker {
+        path: "/data.csv";
+    }
+
+    block BTTextFileInterpreter oftype TextFileInterpreter {}
+
+    block BTCSVReader oftype CSVInterpreter {
+        delimiter:";";
+    }
+
+    block BTTableInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [
+            "Geraet" oftype integer,
+            "Hersteller" oftype text,
+            "Model" oftype text,
+            "Monat" oftype MonthType,
+            "Temperatur" oftype Temperature,
+            "Batterietemperatur" oftype Temperature,
+            "Geraet aktiv" oftype GermanBooleanType
+        ];
+    }
+
+    block BTHeaderRenamerTemp oftype CellWriter{
+        at: cell E1;
+        write: ["Temperatur"];  
+    }
+
+    block BTHeaderRenamerBatTemp oftype CellWriter{
+        at: cell J1;
+        write: ["Batterietemperatur"];  
+    }
+    
+    block BTDWDTempTransformer oftype TableTransformer {
+        inputColumns: ["Temperatur"];
+        outputColumn: "Temperatur";
+        use: CelsiusToFahrenheit;
+    }
+
+    block BTBatteryTempTransformer oftype TableTransformer {
+        inputColumns: ["Batterietemperatur"];
+        outputColumn: "Batterietemperatur";
+        use: CelsiusToFahrenheit;
+    }
+
+    block BTSQLiteLoader oftype SQLiteLoader{
+        table:"temperatures";
+        file:"temperatures.sqlite";
+    }
+
+    block BTColumnSelector oftype CellRangeSelector {
+        select: range A0:K*;
+    }
+
+   transform CelsiusToFahrenheit {
+        from Celsius oftype decimal;
+        to Fahrenheit oftype decimal;
+        Fahrenheit: (Celsius * 9/5) + 32;
+    }
+
+    constraint GermanBooleanConstraint oftype AllowlistConstraint {
+        allowlist: ["Ja", "Nein"];
+    }
+
+    valuetype GermanBooleanType oftype text {
+        constraints: [GermanBooleanConstraint];
+    }
+
+    constraint ValidTemperaturesOnly oftype RangeConstraint {
+        lowerBound: -273.15;
+        upperBound: 1000.0;
+    }
+
+    valuetype Temperature oftype decimal {
+        constraints: [ValidTemperaturesOnly];
+    }
+
+    valuetype MonthType oftype integer {
+        constraints: [MonthConstraints];
+    }
+
+    constraint MonthConstraints oftype RangeConstraint {
+        lowerBound: 1;
+        upperBound:12;
+    }
+
+    constraint OverZero oftype RangeConstraint {
+        lowerBound: 0;
+    }
+
+    valuetype PositiveIdType oftype integer {
+        constraints: [OverZero];
+    }
+}
