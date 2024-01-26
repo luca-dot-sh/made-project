@@ -11,7 +11,7 @@ with open(path, mode="r") as file:
         columns = ["stop_id", "stop_name", "stop_lat", "stop_lon", "zone_id"]
         df = pd.read_csv(stopsfile)
         df = pd.DataFrame(df, columns=columns)
-        df.set_index("stop_id")
+        df = df.set_index("stop_id")
         df = df.loc[df["zone_id"]==2001]
         df = df.loc[(df["stop_lat"]>=-90)&(df["stop_lon"]<=90)]
         
